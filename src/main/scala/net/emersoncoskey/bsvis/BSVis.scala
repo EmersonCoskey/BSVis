@@ -16,6 +16,6 @@ object BSVis {
 	  .build
 
 	def main(args: Array[String]): Unit = {
-		App()("Amogus").renderIntoDOM(document.body)
+		App("Amogus").renderIntoDOM(document.body)
 	}
 }
