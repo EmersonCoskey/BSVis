@@ -7,6 +7,6 @@ import org.scalajs.dom.document
 
 object BSVis {
 	def main(args: Array[String]): Unit = {
-		App.Component("amogus").renderIntoDOM(document.body)
+		App.c("amogus").renderIntoDOM(document.body)
 	}
 }

@@ -6,6 +6,6 @@ import japgolly.scalajs.react.vdom.html_<^._
 import net.emersoncoskey.bsvis.components.util.FnComponentContainer
 
 object App extends FnComponentContainer[String, CtorType.Props] {
-	override val Component = ScalaFnComponent.withHooks[String]
+	override val component: ScalaFnComponent[String, CtorType.Props] = ScalaFnComponent.withHooks[String]
 	  .render(<.div(_))
 }
