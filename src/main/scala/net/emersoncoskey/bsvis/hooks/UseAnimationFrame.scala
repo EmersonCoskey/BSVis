@@ -1,7 +1,7 @@
 package net.emersoncoskey.bsvis.hooks
 
 import japgolly.scalajs.react._
-import net.emersoncoskey.bsvis.components.util.HookContainer
+import net.emersoncoskey.bsvis.components.util.containers.HookContainer
 import org.scalajs.dom._
 
 object UseAnimationFrame extends HookContainer[Double => _, Unit] {
