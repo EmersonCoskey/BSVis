@@ -5,10 +5,10 @@ import net.emersoncoskey.bsvis.components.util.containers.HookContainer
 import org.scalajs.dom.window
 
 object UseFrameDelta extends HookContainer[Double => _, Unit] {
-	protected override val hook: CustomHook[Function[Double, _], Unit] = CustomHook[Double => _]
+	protected override val hook: CustomHook[Double => _, Unit] = CustomHook[Double => _]
 	  .useRef(window.performance.now())
 	  .customBy((fn, currentTime) => UseAnimationFrame.h(newTime => {
-		  val delta = newTime - currentTime
+		  val delta = newTime - currentTime.value
 		  currentTime.value = newTime
 		  fn(delta)
 	  }))
