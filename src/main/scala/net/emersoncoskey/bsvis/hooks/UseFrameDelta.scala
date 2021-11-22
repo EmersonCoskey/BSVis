@@ -1,13 +1,14 @@
 package net.emersoncoskey.bsvis.hooks
 
 import japgolly.scalajs.react._
-import net.emersoncoskey.bsvis.components.util.containers.HookContainer
 import org.scalajs.dom.window
 
-object UseFrameDelta extends HookContainer[Double => _, Unit] {
-	protected override val hook: CustomHook[Double => _, Unit] = CustomHook[Double => _]
-	  .useRef(window.performance.now())
-	  .customBy((fn, currentTime) => UseAnimationFrame.h(newTime => {
+object UseFrameDelta {
+	def H: CustomHook[Double => Callback, Unit] = Hook
+
+	val Hook: CustomHook[Double => Callback, Unit] = CustomHook[Double => Callback]
+	  .useRef[Double](window.performance.now() / 1000)
+	  .customBy((fn, currentTime) => UseAnimationFrame.H(newTime => {
 		  val delta = newTime - currentTime.value
 		  currentTime.value = newTime
 		  fn(delta)

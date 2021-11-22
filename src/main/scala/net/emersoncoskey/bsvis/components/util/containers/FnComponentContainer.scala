@@ -2,8 +2,10 @@ package net.emersoncoskey.bsvis.components.util.containers
 
 import japgolly.scalajs.react.{CtorType, ScalaFnComponent}
 
-trait FnComponentContainer[P, CT[-p, +u] <: CtorType[p, u]] {
-	protected val component: ScalaFnComponent[P, CT]
+trait FnComponentContainer[CT[-p, +u] <: CtorType[p, u]] {
+	type Props
 
-	def c: ScalaFnComponent[P, CT] = component
+	protected val component: ScalaFnComponent[Props, CT]
+
+	def c: ScalaFnComponent[Props, CT] = component
 }

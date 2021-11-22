@@ -1,12 +1,8 @@
 package net.emersoncoskey.bsvis
 
-import japgolly.scalajs.react._
-import japgolly.scalajs.react.vdom.html_<^._
 import net.emersoncoskey.bsvis.components.App
 import org.scalajs.dom.document
 
 object BSVis {
-	def main(args: Array[String]): Unit = {
-		App.c("amogus").renderIntoDOM(document.body)
-	}
+	def main(args: Array[String]): Unit = App.C().renderIntoDOM(document.body)
 }

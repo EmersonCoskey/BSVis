@@ -2,8 +2,12 @@ package net.emersoncoskey.bsvis.components.util.containers
 
 import japgolly.scalajs.react.{CtorType, ScalaComponent}
 
-trait ScalaComponentContainer[P, S, B, CT[-p, +u] <: CtorType[p, u]] {
-	protected val component: ScalaComponent[P, S, B, CT]
+trait ScalaComponentContainer[CT[-p, +u] <: CtorType[p, u]] {
+	type Props
+	type State
+	type Backend
 
-	def c: ScalaComponent[P, S, B, CT] = component
+	protected val component: ScalaComponent[Props, State, Backend, CT]
+
+	def c: ScalaComponent[Props, State, Backend, CT] = component
 }

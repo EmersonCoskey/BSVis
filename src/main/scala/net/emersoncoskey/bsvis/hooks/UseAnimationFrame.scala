@@ -1,14 +1,19 @@
 package net.emersoncoskey.bsvis.hooks
 
 import japgolly.scalajs.react._
-import net.emersoncoskey.bsvis.components.util.containers.HookContainer
 import org.scalajs.dom._
 
-object UseAnimationFrame extends HookContainer[Double => _, Unit] {
-	override val hook: CustomHook[Double => _, Unit] = CustomHook[Double => _]
+object UseAnimationFrame {
+	def H: CustomHook[Double => Callback, Unit] = Hook
+	val Hook: CustomHook[Double => Callback, Unit] = CustomHook[Double => Callback]
 	  .useRef[Int](0)
 	  .useEffectOnMountBy((fn, id) => CallbackTo {
-		  id.value = window.requestAnimationFrame(fn)
+		  def animate(time: Double): Unit = {
+			  val secs = time / 1000
+			  fn(secs).runNow()
+			  id.value = window.requestAnimationFrame(animate)
+		  }
+		  id.value = window.requestAnimationFrame(animate)
 		  Callback(window.cancelAnimationFrame(id.value))
 	  })
 	  .build
