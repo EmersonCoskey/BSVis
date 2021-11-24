@@ -1,11 +1,11 @@
 package net.emersoncoskey.bsvis.components
 
 import japgolly.scalajs.react._
-import japgolly.scalajs.react.hooks.HookCtx
+import japgolly.scalajs.react.hooks.Hooks._
 import japgolly.scalajs.react.vdom.html_<^._
 import net.emersoncoskey.bsvis.components.mapview.BloqViewContainer
-import net.emersoncoskey.bsvis.data.beatsaber.MapFrame
-import net.emersoncoskey.bsvis.hooks.{UseAnimationFrame, UseFrameDelta}
+import net.emersoncoskey.bsvis.data.beatsaber._
+import net.emersoncoskey.bsvis.hooks._
 
 import scala.collection.immutable.TreeMap
 
@@ -14,18 +14,21 @@ object Visualizer {
 
 	val Component: ScalaFnComponent[TreeMap[Double, MapFrame], CtorType.Props] =
 		ScalaFnComponent.withHooks[TreeMap[Double, MapFrame]]
+		                .useRef[Double](0.0)
+		                .useState[(Double, MapFrame)]((0.0, MapFrame.Empty))
+		                .customBy((mapData: TreeMap[Double, MapFrame], currentTime: UseRef[Double], currentFrame: UseState[(Double, MapFrame)]) =>
+			                UseFrameDelta.H(delta => {
+				                val updateTime: Callback = currentTime.mod(_ + delta)
 
-		                .useRef(0.0)
+				                println("amogus" + delta)
+				                val frameSearchRes = mapData.maxBefore(currentTime.value).getOrElse((0.0, MapFrame.Empty))
+				                val updateFrame: Callback = if (frameSearchRes != currentFrame.value) currentFrame.setState(frameSearchRes) else Callback.empty
 
-		                .useState((0.0, MapFrame.Empty))
-
-		                .customBy((mapData, currentTime, currentFrame) => UseFrameDelta.H(delta => Callback {
-			                currentTime.value += delta
-			                val lastFrameBeforeCurrentTime: (Double, MapFrame) = mapData.maxBefore(currentTime.value).getOrElse((0.0, MapFrame.Empty))
-			                if (lastFrameBeforeCurrentTime != currentFrame.value) currentFrame.setState(lastFrameBeforeCurrentTime)
-		                }))
-
-		                .render(_ =>
+				                updateTime >> updateFrame
+			                })
+		                )
+		                .render((mapData: TreeMap[Double, MapFrame], currentTime: UseRef[Double], currentFrame: UseState[(Double, MapFrame)]) =>
 			                <.div("among")
+			                //BloqViewContainer.C(BloqViewContainer.Props(currentFrame.value._2, () => currentTime.value - currentFrame.value._1))
 		                )
 }

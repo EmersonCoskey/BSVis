@@ -9,7 +9,7 @@ import org.scalajs.dom.html
 object BloqView {
 	final case class Props(bloq: Option[Bloq], timeSince: () => Double)
 
-	private def bloqOpacity(timeSince: Double): Double = Math.max(0, 15.7 * Math.pow(-timeSince, 3) + 1)
+	private def bloqOpacity(timeSince: Double): Double = Math.max(0, 24 * Math.pow(-timeSince, 3) + 1)
 
 	def C: ScalaFnComponent[Props, CtorType.Props] = Component
 
@@ -34,6 +34,7 @@ object BloqView {
 							                ^.width := "10em",
 							                ^.height := "10em",
 							                ^.backgroundColor := "red",
+							                ^.borderRadius := "1em",
 							                s"note with color $color and direction $dir",
 					                    )
 					                case Bomb =>
@@ -42,6 +43,7 @@ object BloqView {
 							                ^.width := "10em",
 							                ^.height := "10em",
 							                ^.backgroundColor := "red",
+							                ^.borderRadius := "1em",
 							                "bomb",
 						                )
 				                }

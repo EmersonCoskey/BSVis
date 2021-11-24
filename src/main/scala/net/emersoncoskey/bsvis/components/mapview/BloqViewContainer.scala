@@ -1,7 +1,6 @@
 package net.emersoncoskey.bsvis.components.mapview
 
-import japgolly.scalajs.react.{CtorType, _}
-import japgolly.scalajs.react.component.ScalaFn.Component
+import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 import net.emersoncoskey.bsvis.data.beatsaber._
 
@@ -33,6 +32,6 @@ object BloqViewContainer {
 					                <.th(BloqView.C(BloqView.Props(currentFrame.b3, timeSince))),
 				                ),
 			                )
+			                //<.div("among")
 		                }
-
 }
