@@ -12,8 +12,6 @@ import scala.collection.immutable.TreeMap
 object App {
 	def C: ScalaFnComponent[Unit, CtorType.Nullary] = Component
 
-
-
 	val templateMapData: TreeMap[Double, MapFrame] = {
 		val value = MapFrame(Some(Note(Blue, D)), Some(Note(Blue, D)), Some(Note(Blue, D)), Some(Note(Blue, D)), Some(Note(Blue, D)), Some(Note(Blue, D)), Some(Note(Blue, D)), Some(Note(Blue, D)), Some(Note(Blue, D)), Some(Note(Blue, D)), Some(Note(Blue, D)), Some(Note(Blue, D)))
 

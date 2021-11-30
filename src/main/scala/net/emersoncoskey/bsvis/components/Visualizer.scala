@@ -7,6 +7,7 @@ import japgolly.scalajs.react.vdom.html_<^._
 import net.emersoncoskey.bsvis.components.mapview.BloqViewContainer
 import net.emersoncoskey.bsvis.data.beatsaber._
 import net.emersoncoskey.bsvis.hooks._
+import net.emersoncoskey.bsvis.components.util.Implicits._
 
 import scala.collection.immutable.TreeMap
 
@@ -27,7 +28,7 @@ object Visualizer {
 				                _ <- currentTime.mod(_ + delta)
 
 				                frameSearchRes = mapData.maxBefore(currentTime.value).getOrElse((0.0, MapFrame.Empty))
-				                _ <- if (frameSearchRes._1 > currentFrame.value._1) currentFrame.setState(frameSearchRes) else SyncIO.unit
+				                _ <- (frameSearchRes._1 > currentFrame.value._1) ?: currentFrame.setState(frameSearchRes)
 			                } yield ())
 		                )
 
