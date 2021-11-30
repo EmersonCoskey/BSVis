@@ -13,25 +13,26 @@ object BloqViewContainer {
 		ScalaFnComponent.withHooks[Props]
 		                .render { case Props(currentFrame, timeSince) =>
 			                <.table(
-				                <.tr( // top row of notes
-					                <.th(BloqView.C(BloqView.Props(currentFrame.t0, timeSince))),
-					                <.th(BloqView.C(BloqView.Props(currentFrame.t1, timeSince))),
-					                <.th(BloqView.C(BloqView.Props(currentFrame.t2, timeSince))),
-					                <.th(BloqView.C(BloqView.Props(currentFrame.t3, timeSince))),
-				                ),
-				                <.tr( // middle row of notes
-					                <.th(BloqView.C(BloqView.Props(currentFrame.m0, timeSince))),
-					                <.th(BloqView.C(BloqView.Props(currentFrame.m1, timeSince))),
-					                <.th(BloqView.C(BloqView.Props(currentFrame.m2, timeSince))),
-					                <.th(BloqView.C(BloqView.Props(currentFrame.m3, timeSince))),
-				                ),
-				                <.tr( // bottom row of notes
-					                <.th(BloqView.C(BloqView.Props(currentFrame.b0, timeSince))),
-					                <.th(BloqView.C(BloqView.Props(currentFrame.b1, timeSince))),
-					                <.th(BloqView.C(BloqView.Props(currentFrame.b2, timeSince))),
-					                <.th(BloqView.C(BloqView.Props(currentFrame.b3, timeSince))),
-				                ),
+				                <.tbody(
+					                <.tr( // top row of notes
+						                <.th(BloqView.C(BloqView.Props(currentFrame.t0, timeSince))),
+						                <.th(BloqView.C(BloqView.Props(currentFrame.t1, timeSince))),
+						                <.th(BloqView.C(BloqView.Props(currentFrame.t2, timeSince))),
+						                <.th(BloqView.C(BloqView.Props(currentFrame.t3, timeSince))),
+					                ),
+					                <.tr( // middle row of notes
+						                <.th(BloqView.C(BloqView.Props(currentFrame.m0, timeSince))),
+						                <.th(BloqView.C(BloqView.Props(currentFrame.m1, timeSince))),
+						                <.th(BloqView.C(BloqView.Props(currentFrame.m2, timeSince))),
+						                <.th(BloqView.C(BloqView.Props(currentFrame.m3, timeSince))),
+					                ),
+					                <.tr( // bottom row of notes
+						                <.th(BloqView.C(BloqView.Props(currentFrame.b0, timeSince))),
+						                <.th(BloqView.C(BloqView.Props(currentFrame.b1, timeSince))),
+						                <.th(BloqView.C(BloqView.Props(currentFrame.b2, timeSince))),
+						                <.th(BloqView.C(BloqView.Props(currentFrame.b3, timeSince))),
+					                )
+				                )
 			                )
-			                //<.div("among")
 		                }
 }

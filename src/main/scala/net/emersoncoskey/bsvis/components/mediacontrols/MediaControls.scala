@@ -1,5 +1,6 @@
 package net.emersoncoskey.bsvis.components.mediacontrols
 
+import cats.effect.SyncIO
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 import net.emersoncoskey.bsvis.components.util.ToggleButton
@@ -9,8 +10,8 @@ import net.emersoncoskey.bsvis.components.util.ToggleButton._
 object MediaControls {
 	final case class Props(maxTime          : Double,
 	                       currentTime      : () => Double,
-	                       onSeek           : Double => Callback,
-	                       onTogglePlayState: PlayState => Callback)
+	                       onSeek           : Double => SyncIO[Unit],
+	                       onTogglePlayState: PlayState => SyncIO[Unit])
 
 	sealed trait PlayState
 	case object Playing extends PlayState

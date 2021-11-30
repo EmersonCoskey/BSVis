@@ -1,11 +1,12 @@
 package net.emersoncoskey.bsvis.components.util
 
+import cats.effect.SyncIO
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 
 object ToggleButton {
 	final case class Props(initialState       : State,
-	                       onToggle           : State => Callback,
+	                       onToggle           : State => SyncIO[Unit],
 	                       switchableComponent: State => VdomNode)
 
 	sealed trait State
@@ -24,6 +25,7 @@ object ToggleButton {
 						                case Primary => Secondary
 						                case Secondary => Primary
 					                }
+
 					                toggleState.setState(newState) >>
 					                  props.onToggle(newState)
 				                },
