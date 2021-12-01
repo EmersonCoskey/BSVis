@@ -5,4 +5,4 @@ case class WallJson(_time      : Double,
                     _type      : Int,
                     _duration  : Double,
                     _width     : Int,
-                    _customData: Any)
+                    /*_customData: Any*/)

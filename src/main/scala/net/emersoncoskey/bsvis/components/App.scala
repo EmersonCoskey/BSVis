@@ -1,5 +1,6 @@
 package net.emersoncoskey.bsvis.components
 
+import cats.Monoid
 import cats.effect.SyncIO
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
@@ -7,7 +8,8 @@ import net.emersoncoskey.bsvis.components.mapview.{BloqView, BloqViewContainer}
 import net.emersoncoskey.bsvis.data.beatsaber._
 import org.scalajs.dom
 import io.circe._
-import io.circe.generic.auto._, io.circe.syntax._
+import io.circe.syntax._
+import io.circe.generic.auto._
 import io.circe.parser._
 import net.emersoncoskey.bsvis.data.mapjson.NoteJson
 
@@ -16,7 +18,7 @@ import scala.collection.immutable.TreeMap
 object App {
 	def C: ScalaFnComponent[Unit, CtorType.Nullary] = Component
 
-	val amogus: String = """[
+	val amogus: Seq[NoteJson] = """[
 	{
 	    "_time": 46,
 	    "_lineIndex": 2,
@@ -348,19 +350,46 @@ object App {
 	}
 ]"""
 
-	val templateMapData: TreeMap[Double, MapFrame] = {
+	def parseMapData(implicit mapFrameMonoid: Monoid[MapFrame]): TreeMap[Double, MapFrame] = {
 		val parsedJson = parse(amogus)
-		val jsonObj = parsedJson match {
-			case Right(a) => a
-			case Left(_) => ???
+		val jsonObj: Json = parsedJson match {
+			case Left(err) => throw err
+			case Right(json) => json
 		}
-		val noteList = jsonObj.as[List[NoteJson]]
+		val noteJsonList = jsonObj.as[List[NoteJson]]
+		val notes = noteJsonList match {
+			case Left(err) => throw err
+			case Right(list) => list.groupBy(_._time)
+			                        .map(e => (e._1 / 10, e._2.map(_.toMapFrame).foldLeft(MapFrame.Empty)(mapFrameMonoid.combine)))
+			                        .toSeq
+		}
 
+		TreeMap(notes:_*)
+	}
+
+	val testMapData: TreeMap[Double, MapFrame] = {
+		val frames = Seq(
+			0.5 -> MapFrame(Some(Note(Blue, U)), None, None, None, None, None, None, None, None, None, None, None),
+			1.0 -> MapFrame(None, Some(Note(Blue, D)), None, None, None, None, None, None, None, None, None, None),
+			1.5 -> MapFrame(None, None, Some(Note(Blue, L)), None, None, None, None, None, None, None, None, None),
+			2.0 -> MapFrame(None, None, None, Some(Note(Blue, R)), None, None, None, None, None, None, None, None),
+			2.5 -> MapFrame(None, None, None, None, Some(Note(Blue, UL)), None, None, None, None, None, None, None),
+			3.0 -> MapFrame(None, None, None, None, None, Some(Note(Blue, UR)), None, None, None, None, None, None),
+			3.5 -> MapFrame(None, None, None, None, None, None, Some(Note(Blue, DL)), None, None, None, None, None),
+			4.0 -> MapFrame(None, None, None, None, None, None, None, Some(Note(Blue, DR)), None, None, None, None),
+			4.5 -> MapFrame(None, None, None, None, None, None, None, None, Some(Note(Blue, Dot)), None, None, None),
+			5.0 -> MapFrame(None, None, None, None, None, None, None, None, None, Some(Note(Blue, D)), None, None),
+			5.5 -> MapFrame(None, None, None, None, None, None, None, None, None, None, Some(Note(Blue, U)), None),
+			6.0 -> MapFrame(None, None, None, None, None, None, None, None, None, None, None, Some(Note(Blue, L))),
+		)
+
+
+		TreeMap(frames:_*)
 	}
 
 	val Component: ScalaFnComponent[Unit, CtorType.Nullary] =
 		ScalaFnComponent.withHooks[Unit]
 		                .render(_ =>
-		                    Visualizer.C(templateMapData)
+		                    Visualizer.C(testMapData)
 		                ) //creates a DOM component and renders it
 }

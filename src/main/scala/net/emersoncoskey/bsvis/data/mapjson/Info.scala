@@ -15,5 +15,5 @@ case class Info(_version                     : String,
                 _environmentName             : String,
                 _allDirectionsEnvironmentName: String,
                 _songTimeOffset              : Double,
-                _customData                  : Any,
+                /*_customData                  : Any,*/
                 _difficultyBeatmapSets       : List[DifficultyBeatmapSet])

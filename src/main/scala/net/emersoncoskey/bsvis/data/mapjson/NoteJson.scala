@@ -1,5 +1,7 @@
 package net.emersoncoskey.bsvis.data.mapjson
 
+import io.circe.Decoder
+import io.circe.generic.semiauto.deriveDecoder
 import net.emersoncoskey.bsvis.data.beatsaber._
 
 case class NoteJson(_time        : Double,
@@ -7,7 +9,8 @@ case class NoteJson(_time        : Double,
                     _lineLayer   : Int,
                     _type        : Int,
                     _cutDirection: Int,
-                    _customData  : Any) {
+                    /*_customData  : Any*/) {
+
 	def toMapFrame: MapFrame = {
 		val noteDirection: NoteDirection = _cutDirection match {
 			case 0 => U
