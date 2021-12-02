@@ -366,8 +366,6 @@ object App {
 
 		println("sus")
 		TreeMap(notes: _*)
-
-		TreeMap((0.0, MapFrame.Empty))
 	}
 
 	val Component: ScalaFnComponent[Unit, CtorType.Nullary] =
