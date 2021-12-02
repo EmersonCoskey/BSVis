@@ -35,12 +35,6 @@ libraryDependencies ++= Seq(
 
 	// Mandatory
 	"com.github.japgolly.scalajs-react" %%% "core-bundle-cats_effect"  % ScalaJsReactVer,
-
-
-)
-
-libraryDependencies ++= Seq(
-	"com.chuusai" %%% "shapeless" % "2.3.7"
 )
 
 val circeVersion = "0.14.1"
