@@ -29,9 +29,9 @@ case class NoteJson(_time        : Double,
 		val bloq: Bloq = _type match {
 			case 0 => Note(Blue, noteDirection)
 			case 1 => Note(Red, noteDirection)
-			case 4 => Bomb
+			case 3 => Bomb
 
-			case _ => Bomb
+			case _ => Bomb //2 is unused
 		}
 
 		(_lineIndex, _lineLayer) match {

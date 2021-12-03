@@ -26,9 +26,9 @@ object MapFrame {
 		                           None, None, None, None)
 
 	implicit val MapFrameMonoid: Monoid[MapFrame] = new Monoid[MapFrame] {
-		def empty: MapFrame = MapFrame.Empty
+		override def empty: MapFrame = MapFrame.Empty
 
-		def combine(x: MapFrame, y: MapFrame): MapFrame =
+		override def combine(x: MapFrame, y: MapFrame): MapFrame =
 			MapFrame(y.t0.orElse(x.t0), y.t1.orElse(x.t1), y.t2.orElse(x.t2), y.t3.orElse(x.t3),
 				     y.m0.orElse(x.m0), y.m1.orElse(x.m1), y.m2.orElse(x.m2), y.m3.orElse(x.m3),
 				     y.b0.orElse(x.b0), y.b1.orElse(x.b1), y.b2.orElse(x.b2), y.b3.orElse(x.b3))
