@@ -1,7 +1,7 @@
 package net.emersoncoskey.bsvis.components
 
 import cats.Monoid
-import cats.effect.{IO, SyncIO}
+import cats.effect.SyncIO
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 import net.emersoncoskey.bsvis.components.mapview.{BloqView, BloqViewContainer}

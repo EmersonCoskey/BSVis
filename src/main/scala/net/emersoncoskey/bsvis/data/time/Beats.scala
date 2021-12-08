@@ -1,5 +1,8 @@
 package net.emersoncoskey.bsvis.data.time
 
+import io.circe.Decoder.Result
+import io.circe.{Decoder, HCursor}
+
 case class Beats(time: Double) extends AnyVal {
 	def toSeconds(bpm: Double, offset: Seconds, shuffle: Beats, shufflePeriod: Beats): Seconds = {
 		val shufflePosition: Double = time / shufflePeriod.time % 2
@@ -7,4 +10,8 @@ case class Beats(time: Double) extends AnyVal {
 		val seconds        : Double = (60.0 / bpm) * shuffledBeats + offset.time //TODO: make sure offset is actually applied to notes
 		Seconds(seconds)
 	}
+}
+
+object Beats {
+	implicit val decodeBeats: Decoder[Beats] = (c: HCursor) => for (time <- c.as[Double]) yield Beats(time)
 }

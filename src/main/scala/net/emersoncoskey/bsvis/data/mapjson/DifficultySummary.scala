@@ -5,4 +5,4 @@ case class DifficultySummary(_difficulty             : String,
                              _beatmapFilename        : String,
                              _noteJumpMovementSpeed  : Double,
                              _noteJumpStartBeatOffset: Double,
-                            /* _customData             : Any*/)
+                             /*_customData             : Any*/)

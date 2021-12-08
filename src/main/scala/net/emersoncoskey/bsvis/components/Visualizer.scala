@@ -19,15 +19,6 @@ object Visualizer {
 	val Component: ScalaFnComponent[TreeMap[Double, MapFrame[Bloq]], CtorType.Props] =
 		ScalaFnComponent.withHooks[TreeMap[Double, MapFrame[Bloq]]]
 
-		                /*.useEffect(SyncIO(println("amogus")))
-		                .useEffectOnMount(for {
-			                _ <- IO.println("amogus amogus")
-			                req <- IO(basicRequest.get(uri"https://na.cdn.beatsaver.com/6c607d5ad432fa847f59eb7270129c8fd202c2b1.zip"))
-			                backend <- IO(FetchCatsBackend[IO]())
-			                req <- req.send(backend)
-			                _ <- IO.println(req.body)
-		                } yield ())*/
-
 		                .useRef[Double](0.0)
 
 		                .useState[Double](0.0)
