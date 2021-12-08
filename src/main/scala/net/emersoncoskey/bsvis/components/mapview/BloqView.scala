@@ -5,13 +5,14 @@ import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 import net.emersoncoskey.bsvis.data.beatsaber._
 import net.emersoncoskey.bsvis.data.constants.BeatSaberSvgAssets
+import net.emersoncoskey.bsvis.data.time._
 import net.emersoncoskey.bsvis.hooks.UseAnimationFrame
 import org.scalajs.dom.html
 
 object BloqView {
-	final case class Props(bloq: Option[Bloq], timeSince: () => Double)
+	final case class Props(bloq: Option[Bloq], timeSince: () => Seconds)
 
-	private def bloqOpacity(timeSince: Double): Double = Math.max(0, 32 * Math.pow(-timeSince, 3) + 1)
+	private def bloqOpacity(timeSince: Seconds): Double = Math.max(0, 8.0 * Math.pow(-timeSince, 3) + 1)
 
 	private def bloqRotStyle(dir: NoteDirection): String = {
 		val degrees = dir match {

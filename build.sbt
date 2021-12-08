@@ -4,19 +4,27 @@ version := "0.1"
 
 scalaVersion := "2.13.7"
 
-/** ******************************************************************************************************************* */
+/**********************************************************************************************************************/
 
 enablePlugins(ScalaJSPlugin)
 
 enablePlugins(ScalaJSBundlerPlugin)
 
+//enablePlugins(ScalablyTypedConverterPlugin)
+
 addCompilerPlugin("com.olegpy" %% "better-monadic-for" % "0.3.1")
 
-/** ******************************************************************************************************************* */
+/**********************************************************************************************************************/
 
 scalaJSUseMainModuleInitializer := true
 
+//stFlavour := Flavour.Japgolly
+
+useYarn := true
+
 val ScalaJsReactVer = "2.0.0"
+
+val circeVersion = "0.14.1"
 
 libraryDependencies ++= Seq(
 	"org.scala-js" %%% "scalajs-dom" % "2.0.0",
@@ -35,9 +43,16 @@ libraryDependencies ++= Seq(
 
 	// Mandatory
 	"com.github.japgolly.scalajs-react" %%% "core-bundle-cats_effect" % ScalaJsReactVer,
+
+
 )
 
-val circeVersion = "0.14.1"
+val sttpVer = "3.3.18"
+
+libraryDependencies ++= Seq(
+	"com.softwaremill.sttp.client3" %%% "core",
+	"com.softwaremill.sttp.client3" %%% "cats" ,
+).map(_ % sttpVer)
 
 libraryDependencies ++= Seq(
 	"io.circe" %%% "circe-core",
@@ -54,4 +69,5 @@ scalacOptions ++= Seq(
 
 Compile / npmDependencies ++= Seq(
 	"react" -> "17.0.2",
-	"react-dom" -> "17.0.2")
+	"react-dom" -> "17.0.2"
+)

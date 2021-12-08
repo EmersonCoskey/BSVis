@@ -1,4 +1,4 @@
-package net.emersoncoskey.bsvis.components.util
+package net.emersoncoskey.bsvis.components.misc
 
 import cats.effect.SyncIO
 import japgolly.scalajs.react._
@@ -10,7 +10,9 @@ object ToggleButton {
 	                       switchableComponent: State => VdomNode)
 
 	sealed trait State
+
 	case object Primary extends State
+
 	case object Secondary extends State
 
 	def C: ScalaFnComponent[Props, CtorType.Props] = Component

@@ -1,43 +1,58 @@
 package net.emersoncoskey.bsvis.components
 
-import cats.effect.SyncIO
+import cats.effect.{IO, SyncIO}
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.hooks.Hooks._
 import japgolly.scalajs.react.vdom.html_<^._
 import net.emersoncoskey.bsvis.components.mapview.BloqViewContainer
 import net.emersoncoskey.bsvis.data.beatsaber._
 import net.emersoncoskey.bsvis.hooks._
-import net.emersoncoskey.bsvis.components.util.Implicits._
+import cats.implicits._
+import sttp.client3._
+import sttp.client3.impl.cats.FetchCatsBackend
 
 import scala.collection.immutable.TreeMap
 
 object Visualizer {
-	def C: ScalaFnComponent[TreeMap[Double, MapFrame], CtorType.Props] = Component
+	def C: ScalaFnComponent[TreeMap[Double, MapFrame[Bloq]], CtorType.Props] = Component
 
-	val Component: ScalaFnComponent[TreeMap[Double, MapFrame], CtorType.Props] =
-		ScalaFnComponent.withHooks[TreeMap[Double, MapFrame]]
+	val Component: ScalaFnComponent[TreeMap[Double, MapFrame[Bloq]], CtorType.Props] =
+		ScalaFnComponent.withHooks[TreeMap[Double, MapFrame[Bloq]]]
+
+		                /*.useEffect(SyncIO(println("amogus")))
+		                .useEffectOnMount(for {
+			                _ <- IO.println("amogus amogus")
+			                req <- IO(basicRequest.get(uri"https://na.cdn.beatsaver.com/6c607d5ad432fa847f59eb7270129c8fd202c2b1.zip"))
+			                backend <- IO(FetchCatsBackend[IO]())
+			                req <- req.send(backend)
+			                _ <- IO.println(req.body)
+		                } yield ())*/
 
 		                .useRef[Double](0.0)
 
-		                .useState[(Double, MapFrame)]((0.0, MapFrame.Empty))
+		                .useState[Double](0.0)
+		                .useState[MapFrame[(Double, Bloq)]](MapFrame.Empty[(Double, Bloq)])
 
-		                .customBy((mapData     : TreeMap[Double, MapFrame],
-		                           currentTime : UseRef[Double],
-		                           currentFrame: UseState[(Double, MapFrame)]) =>
+		                .customBy((mapData         : TreeMap[Double, MapFrame[Bloq]],
+		                           currentTime     : UseRef[Double],
+		                           currentFrameTime: UseState[Double],
+		                           frameAccumulator: UseState[MapFrame[(Double, Bloq)]]) =>
 			                UseFrameDelta.H(delta => for {
 				                _ <- currentTime.mod(_ + delta)
 
-				                frameSearchRes = mapData.maxBefore(currentTime.value).getOrElse((0.0, MapFrame.Empty))
-				                _ <- (frameSearchRes._1 > currentFrame.value._1) ?: currentFrame.setState(frameSearchRes)
+				                frameSearchRes = mapData.maxBefore(currentTime.value).getOrElse((0.0, MapFrame.Empty[Bloq]))
+				                newAccumulatorFrame = frameSearchRes._2.map((frameSearchRes._1, _))
+
+				                _ <- (currentFrameTime.setState(frameSearchRes._1) >> frameAccumulator.modState(newAccumulatorFrame |+| _)).whenA(frameSearchRes._1 > currentFrameTime.value)
 			                } yield ())
 		                )
 
-		                .render((_           : TreeMap[Double, MapFrame],
+		                .render((_           : TreeMap[Double, MapFrame[Bloq]],
 		                         currentTime : UseRef[Double],
-		                         currentFrame: UseState[(Double, MapFrame)]) => currentFrame.value match {
-			                case (frameTime, frame) =>
-				                <.div(
-					                BloqViewContainer.C(BloqViewContainer.Props(frame, () => currentTime.value - frameTime)),
-				                )
-		                })
+		                         _           : UseState[Double],
+		                         currentFrame: UseState[MapFrame[(Double, Bloq)]]) =>
+			                <.div(
+				                BloqViewContainer.C(BloqViewContainer.Props(currentFrame.value, () => currentTime.value))
+			                )
+		                )
 }

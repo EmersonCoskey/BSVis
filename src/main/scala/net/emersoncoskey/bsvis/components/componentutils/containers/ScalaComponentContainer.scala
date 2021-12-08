@@ -1,4 +1,4 @@
-package net.emersoncoskey.bsvis.components.util.containers
+package net.emersoncoskey.bsvis.components.componentutils.containers
 
 import japgolly.scalajs.react.{CtorType, ScalaComponent}
 

@@ -3,8 +3,8 @@ package net.emersoncoskey.bsvis.components.mediacontrols
 import cats.effect.SyncIO
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
-import net.emersoncoskey.bsvis.components.util.ToggleButton
-import net.emersoncoskey.bsvis.components.util.ToggleButton._
+import net.emersoncoskey.bsvis.components.misc.ToggleButton
+import net.emersoncoskey.bsvis.components.misc.ToggleButton._
 
 
 object MediaControls {
@@ -31,8 +31,7 @@ object MediaControls {
 							                case Primary => Playing
 							                case Secondary => Paused
 						                }
-						                playState.setState(newPlayState) >>
-						                  props.onTogglePlayState(newPlayState)
+						                playState.setState(newPlayState) >> props.onTogglePlayState(newPlayState)
 					                },
 					                {
 						                case Primary => ??? // TODO: SVG icons for button, refer to function above for what to map to

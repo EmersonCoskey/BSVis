@@ -1,36 +1,40 @@
 package net.emersoncoskey.bsvis.components.mapview
 
 import japgolly.scalajs.react._
+import japgolly.scalajs.react.component.ScalaFn.Unmounted
 import japgolly.scalajs.react.vdom.html_<^._
 import net.emersoncoskey.bsvis.data.beatsaber._
 
 object BloqViewContainer {
-	final case class Props(currentFrame: MapFrame, timeSince: () => Double)
+	final case class Props(currentFrame: MapFrame[(Double, Bloq)], currentTime: () => Double)
 
 	def C: ScalaFnComponent[Props, CtorType.Props] = Component
 
+	def bloqViewElem(frameSection: Option[(Double, Bloq)], currentTime: () => Double): Unmounted[BloqView.Props] =
+		BloqView.C(BloqView.Props(frameSection.map(_._2), () => currentTime() - frameSection.map(_._1).getOrElse(0.0)))
+
 	val Component: ScalaFnComponent[Props, CtorType.Props] =
 		ScalaFnComponent.withHooks[Props]
-		                .render { case Props(currentFrame, timeSince) =>
+		                .render { case Props(currentFrame, currentTime) =>
 			                <.table(
 				                <.tbody(
 					                <.tr( // top row of notes
-						                <.th(BloqView.C(BloqView.Props(currentFrame.t0, timeSince))),
-						                <.th(BloqView.C(BloqView.Props(currentFrame.t1, timeSince))),
-						                <.th(BloqView.C(BloqView.Props(currentFrame.t2, timeSince))),
-						                <.th(BloqView.C(BloqView.Props(currentFrame.t3, timeSince))),
+						                <.th(React.Fragment(bloqViewElem(currentFrame.t0, currentTime), "t0")),
+						                <.th(React.Fragment(bloqViewElem(currentFrame.t1, currentTime), "t1")),
+						                <.th(React.Fragment(bloqViewElem(currentFrame.t2, currentTime), "t2")),
+						                <.th(React.Fragment(bloqViewElem(currentFrame.t3, currentTime), "t3")),
 					                ),
 					                <.tr( // middle row of notes
-						                <.th(BloqView.C(BloqView.Props(currentFrame.m0, timeSince))),
-						                <.th(BloqView.C(BloqView.Props(currentFrame.m1, timeSince))),
-						                <.th(BloqView.C(BloqView.Props(currentFrame.m2, timeSince))),
-						                <.th(BloqView.C(BloqView.Props(currentFrame.m3, timeSince))),
+						                <.th(React.Fragment(bloqViewElem(currentFrame.m0, currentTime), "m0")),
+						                <.th(React.Fragment(bloqViewElem(currentFrame.m1, currentTime), "m1")),
+						                <.th(React.Fragment(bloqViewElem(currentFrame.m2, currentTime), "m2")),
+						                <.th(React.Fragment(bloqViewElem(currentFrame.m3, currentTime), "m3")),
 					                ),
 					                <.tr( // bottom row of notes
-						                <.th(BloqView.C(BloqView.Props(currentFrame.b0, timeSince))),
-						                <.th(BloqView.C(BloqView.Props(currentFrame.b1, timeSince))),
-						                <.th(BloqView.C(BloqView.Props(currentFrame.b2, timeSince))),
-						                <.th(BloqView.C(BloqView.Props(currentFrame.b3, timeSince))),
+						                <.th(React.Fragment(bloqViewElem(currentFrame.b0, currentTime), "b0")),
+						                <.th(React.Fragment(bloqViewElem(currentFrame.b1, currentTime), "b1")),
+						                <.th(React.Fragment(bloqViewElem(currentFrame.b2, currentTime), "b2")),
+						                <.th(React.Fragment(bloqViewElem(currentFrame.b3, currentTime), "b3")),
 					                )
 				                )
 			                )
