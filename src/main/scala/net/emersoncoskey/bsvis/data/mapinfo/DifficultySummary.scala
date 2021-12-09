@@ -15,9 +15,5 @@ object DifficultySummary {
 		filename <- c.downField("_filename").as[String]
 		noteJumpSpeed <- c.downField("_noteJumpMovementSpeed").as[Double]
 		noteSpawnOffset <- c.downField("_noteJumpStartBeatOffset").as[Double]
-	} yield DifficultySummary(difficulty,
-		                      difficultyRank,
-		                      filename,
-		                      noteJumpSpeed,
-		                      noteSpawnOffset)
+	} yield DifficultySummary(difficulty, difficultyRank, filename, noteJumpSpeed, noteSpawnOffset)
 }

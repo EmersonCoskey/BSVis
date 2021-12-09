@@ -2,8 +2,7 @@ package net.emersoncoskey.bsvis.data.mapinfo
 
 import io.circe.{Decoder, HCursor}
 
-case class DifficultySet(characteristicName: String,
-                         difficulties      : List[DifficultySummary])
+case class DifficultySet(characteristicName: String, difficulties: List[DifficultySummary])
 
 object DifficultySet {
 	implicit val decodeDifficultySet: Decoder[DifficultySet] = (c: HCursor) => for {

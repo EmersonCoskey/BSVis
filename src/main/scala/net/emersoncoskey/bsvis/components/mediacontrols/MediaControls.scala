@@ -5,12 +5,13 @@ import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 import net.emersoncoskey.bsvis.components.misc.ToggleButton
 import net.emersoncoskey.bsvis.components.misc.ToggleButton._
+import net.emersoncoskey.bsvis.data.time.Seconds
 
 
 object MediaControls {
-	final case class Props(maxTime          : Double,
-	                       currentTime      : () => Double,
-	                       onSeek           : Double => SyncIO[Unit],
+	final case class Props(maxTime          : Seconds,
+	                       currentTime      : () => Seconds,
+	                       onSeek           : Seconds => SyncIO[Unit],
 	                       onTogglePlayState: PlayState => SyncIO[Unit])
 
 	sealed trait PlayState

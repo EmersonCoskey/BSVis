@@ -8,25 +8,26 @@ import net.emersoncoskey.bsvis.components.mapview.BloqViewContainer
 import net.emersoncoskey.bsvis.data.beatsaber._
 import net.emersoncoskey.bsvis.hooks._
 import cats.implicits._
+import net.emersoncoskey.bsvis.data.time.Seconds
 import sttp.client3._
 import sttp.client3.impl.cats.FetchCatsBackend
 
 import scala.collection.immutable.TreeMap
 
 object Visualizer {
-	def C: ScalaFnComponent[TreeMap[Double, MapFrame[Bloq]], CtorType.Props] = Component
+	def C: ScalaFnComponent[TreeMap[Seconds, MapFrame[Bloq]], CtorType.Props] = Component
 
-	val Component: ScalaFnComponent[TreeMap[Double, MapFrame[Bloq]], CtorType.Props] =
-		ScalaFnComponent.withHooks[TreeMap[Double, MapFrame[Bloq]]]
+	val Component: ScalaFnComponent[TreeMap[Seconds, MapFrame[Bloq]], CtorType.Props] =
+		ScalaFnComponent.withHooks[TreeMap[Seconds, MapFrame[Bloq]]]
 
 		                .useRef[Double](0.0)
 
 		                .useState[Double](0.0)
 		                .useState[MapFrame[(Double, Bloq)]](MapFrame.Empty[(Double, Bloq)])
 
-		                .customBy((mapData         : TreeMap[Double, MapFrame[Bloq]],
-		                           currentTime     : UseRef[Double],
-		                           currentFrameTime: UseState[Double],
+		                .customBy((mapData         : TreeMap[Seconds, MapFrame[Bloq]],
+		                           currentTime     : UseRef[Seconds],
+		                           currentFrameTime: UseState[Seconds],
 		                           frameAccumulator: UseState[MapFrame[(Double, Bloq)]]) =>
 			                UseFrameDelta.H(delta => for {
 				                _ <- currentTime.mod(_ + delta)

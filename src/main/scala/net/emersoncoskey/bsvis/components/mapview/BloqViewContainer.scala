@@ -4,14 +4,15 @@ import japgolly.scalajs.react._
 import japgolly.scalajs.react.component.ScalaFn.Unmounted
 import japgolly.scalajs.react.vdom.html_<^._
 import net.emersoncoskey.bsvis.data.beatsaber._
+import net.emersoncoskey.bsvis.data.time.Seconds
 
 object BloqViewContainer {
-	final case class Props(currentFrame: MapFrame[(Double, Bloq)], currentTime: () => Double)
+	final case class Props(currentFrame: MapFrame[(Seconds, Bloq)], currentTime: () => Seconds)
 
 	def C: ScalaFnComponent[Props, CtorType.Props] = Component
 
-	def bloqViewElem(frameSection: Option[(Double, Bloq)], currentTime: () => Double): Unmounted[BloqView.Props] =
-		BloqView.C(BloqView.Props(frameSection.map(_._2), () => currentTime() - frameSection.map(_._1).getOrElse(0.0)))
+	def bloqViewElem(frameSection: Option[(Seconds, Bloq)], currentTime: () => Seconds): Unmounted[BloqView.Props] =
+		BloqView.C(BloqView.Props(frameSection.map(_._2), () => currentTime() - frameSection.map(_._1).getOrElse(0.0))) //TODO: add math ops for number wrappers
 
 	val Component: ScalaFnComponent[Props, CtorType.Props] =
 		ScalaFnComponent.withHooks[Props]
@@ -19,6 +20,7 @@ object BloqViewContainer {
 			                <.table(
 				                <.tbody(
 					                <.tr( // top row of notes
+						                //TODO: eventually remove react fragments and labels
 						                <.th(React.Fragment(bloqViewElem(currentFrame.t0, currentTime), "t0")),
 						                <.th(React.Fragment(bloqViewElem(currentFrame.t1, currentTime), "t1")),
 						                <.th(React.Fragment(bloqViewElem(currentFrame.t2, currentTime), "t2")),

@@ -7,15 +7,10 @@ import cats.implicits._
 
 import scala.collection.immutable.TreeMap
 
-case class Difficulty(version: String,
-                      notes  : TreeMap[Seconds, MapFrame[Bloq]])
+case class Difficulty(version: String, notes: TreeMap[Beats, MapFrame[Bloq]])
 
 object Difficulty {
-	private case class NoteJsonHelper(time: Beats,
-	                                  lineIndex: Int,
-	                                  lineLayer: Int,
-	                                  `type`: Int,
-	                                  cutDirection: Int) {
+	private case class NoteJsonHelper(time: Beats, lineIndex: Int, lineLayer: Int, `type`: Int, cutDirection: Int) {
 		def toMapFrame: MapFrame[Bloq] = {
 			val noteDirection: NoteDirection = cutDirection match {
 				case 0 => U
@@ -58,15 +53,6 @@ object Difficulty {
 		}
 	}
 
-	implicit val decodeDifficulty: Decoder[Difficulty] = (c: HCursor) => for {
-		version <- c.downField("_version").as[String]
-		notesList <- c.downField("_notes").as[List[NoteJsonHelper]]
-	} yield Difficulty(version, TreeMap(
-		notesList.groupBy(_.time)
-		         .map { case (k, v) => (k, v.map(_.toMapFrame).combineAll) }
-		         .toSeq:_*
-	))
-
 	private implicit val decodeNoteJsonHelper: Decoder[NoteJsonHelper] = (c: HCursor) => for {
 		time <- c.downField("_time").as[Beats]
 		lineIndex <- c.downField("_lineIndex").as[Int]
@@ -74,4 +60,13 @@ object Difficulty {
 		_type <- c.downField("_type").as[Int]
 		cutDirection <- c.downField("_cutDirection").as[Int]
 	} yield NoteJsonHelper(time, lineIndex, lineLayer, _type, cutDirection)
+
+	implicit val decodeDifficulty: Decoder[Difficulty] = (c: HCursor) => for {
+		version <- c.downField("_version").as[String]
+		notesList <- c.downField("_notes").as[List[NoteJsonHelper]]
+	} yield Difficulty(version, TreeMap(
+		notesList.groupBy(_.time)
+		         .map { case (k, v) => (k, v.map(_.toMapFrame).combineAll) }
+		         .toSeq: _*
+	))
 }

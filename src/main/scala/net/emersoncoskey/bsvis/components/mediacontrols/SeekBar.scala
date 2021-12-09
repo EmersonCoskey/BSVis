@@ -4,13 +4,14 @@ import cats.effect.SyncIO
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.hooks.Hooks.UseState
 import japgolly.scalajs.react.vdom.html_<^._
+import net.emersoncoskey.bsvis.data.time.Seconds
 import net.emersoncoskey.bsvis.hooks.UseAnimationFrame
 
 
 object SeekBar {
-	final case class Props(maxTime    : Double,
-	                       currentTime: () => Double, //should be a reference to getter on parent object probably (so time storage isn't distributed - that's bad)
-	                       onSeek     : Double => SyncIO[Unit])
+	final case class Props(maxTime    : Seconds,
+	                       currentTime: () => Seconds, //should be a reference to getter on parent object probably (so time storage isn't distributed - that's bad)
+	                       onSeek     : Seconds => SyncIO[Unit])
 
 	def C: ScalaFnComponent[Props, CtorType.Props] = Component
 
