@@ -12,7 +12,7 @@ import org.scalajs.dom.html
 object BloqView {
 	final case class Props(bloq: Option[Bloq], timeSince: () => Seconds)
 
-	private def bloqOpacity(timeSince: Seconds): Double = Math.max(0, 8.0 * Math.pow(-timeSince, 3) + 1)
+	private def bloqOpacity(timeSince: Seconds): Double = Math.max(0, 8.0 * Math.pow(-timeSince.time, 3) + 1)
 
 	private def bloqRotStyle(dir: NoteDirection): String = {
 		val degrees = dir match {

@@ -3,6 +3,7 @@ package net.emersoncoskey.bsvis.data.mapinfo
 import io.circe._
 import net.emersoncoskey.bsvis.data.beatsaber._
 import net.emersoncoskey.bsvis.data.time._
+import cats.implicits._
 
 import scala.collection.immutable.TreeMap
 
@@ -60,7 +61,11 @@ object Difficulty {
 	implicit val decodeDifficulty: Decoder[Difficulty] = (c: HCursor) => for {
 		version <- c.downField("_version").as[String]
 		notesList <- c.downField("_notes").as[List[NoteJsonHelper]]
-	} yield Difficulty(version, )
+	} yield Difficulty(version, TreeMap(
+		notesList.groupBy(_.time)
+		         .map { case (k, v) => (k, v.map(_.toMapFrame).combineAll) }
+		         .toSeq:_*
+	))
 
 	private implicit val decodeNoteJsonHelper: Decoder[NoteJsonHelper] = (c: HCursor) => for {
 		time <- c.downField("_time").as[Beats]

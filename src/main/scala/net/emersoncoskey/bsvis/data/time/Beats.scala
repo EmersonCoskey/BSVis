@@ -10,8 +10,12 @@ case class Beats(time: Double) extends AnyVal {
 		val seconds        : Double = (60.0 / bpm) * shuffledBeats + offset.time //TODO: make sure offset is actually applied to notes
 		Seconds(seconds)
 	}
+
+	def map(op: Double => Double): Beats = Beats(op(time))
 }
 
 object Beats {
 	implicit val decodeBeats: Decoder[Beats] = (c: HCursor) => for (time <- c.as[Double]) yield Beats(time)
+
+	implicit val beatsOrdering: Ordering[Beats] = (x: Beats, y: Beats) => x.time.compare(y.time)
 }
