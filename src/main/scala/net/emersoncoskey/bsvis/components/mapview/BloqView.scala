@@ -11,7 +11,7 @@ import org.scalajs.dom.html
 object BloqView {
 	final case class Props(bloq: Option[Bloq], timeSince: () => Seconds)
 
-	private def bloqOpacity(timeSince: Seconds): Double = Math.max(0, 8.0 * Math.pow(-timeSince.time, 3) + 1)
+	private def bloqOpacity(timeSince: Seconds): Double = Math.max(0, 8 * Math.pow(-timeSince.time, 3) + 1)
 
 	private def bloqRotStyle(dir: NoteDirection): String = {
 		val degrees = dir match {
@@ -39,7 +39,12 @@ object BloqView {
 		                .useRefToVdom[html.Image]
 
 		                .customBy((props, ref) => UseAnimationFrame.H(_ =>
-			                ref.foreach(_.style.opacity = bloqOpacity(props.timeSince()).toString)
+			                ref.foreach(e => {
+				                val dimension = 10 * bloqOpacity(props.timeSince() - Seconds(0.25))
+				                e.style.opacity = bloqOpacity(props.timeSince()).toString
+				                e.style.width = s"${dimension}em"
+				                e.style.height = s"${dimension}em"
+		                    })
 		                ))
 
 		                .render((props: Props, ref: Ref.ToVdom[html.Image]) => props match {
@@ -47,6 +52,9 @@ object BloqView {
 				                <.div(
 					                ^.width := "10em",
 					                ^.height := "10em",
+					                ^.display := "grid",
+					                ^.justifyContent := "center",
+					                ^.alignContent := "center",
 					                ^.backgroundColor := "gray",  // (gray?) background behind note -> maybe put second in list, idk how html work
 					                ^.borderRadius := "15%",
 					                ^.margin := "0.25em",
@@ -56,7 +64,7 @@ object BloqView {
 							                <.img.withRef(ref)(
 								                ^.opacity := "1",
 								                ^.width := "10em",
-								                ^.height := "10em",
+								                ^.height := s"10em",
 								                ^.transform := bloqRotStyle(dir),
 								                ^.src := BeatSaberSvgAssets.NoteAssetPath(color, dir),
 							                )

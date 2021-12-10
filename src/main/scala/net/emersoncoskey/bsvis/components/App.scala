@@ -23,7 +23,7 @@ import scala.collection.immutable.TreeMap
 object App {
 	def C: ScalaFnComponent[Unit, CtorType.Nullary] = Component
 
-	val amogus: String = """{ version: "1.0.0", notes: [
+	val amogus: String = """{ "_version": "1.0.0", "_notes": [
 	                       |        {
 	                       |            "_time": 4.481476783752441,
 	                       |            "_lineIndex": 1,

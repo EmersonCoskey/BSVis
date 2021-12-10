@@ -12,7 +12,7 @@ object BloqViewContainer {
 	def C: ScalaFnComponent[Props, CtorType.Props] = Component
 
 	def bloqViewElem(frameSection: Option[(Seconds, Bloq)], currentTime: () => Seconds): Unmounted[BloqView.Props] =
-		BloqView.C(BloqView.Props(frameSection.map(_._2), () => currentTime() - frameSection.map(_._1).getOrElse(0.0))) //TODO: add math ops for number wrappers
+		BloqView.C(BloqView.Props(frameSection.map(_._2), () => currentTime() - frameSection.map(_._1).getOrElse(Seconds(0.0)))) //TODO: add math ops for number wrappers
 
 	val Component: ScalaFnComponent[Props, CtorType.Props] =
 		ScalaFnComponent.withHooks[Props]

@@ -5,6 +5,8 @@ import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 import net.emersoncoskey.bsvis.components.misc.ToggleButton
 import net.emersoncoskey.bsvis.components.misc.ToggleButton._
+import net.emersoncoskey.bsvis.data.beatsaber._
+import net.emersoncoskey.bsvis.data.constants.BeatSaberSvgAssets
 import net.emersoncoskey.bsvis.data.time.Seconds
 
 
@@ -35,8 +37,14 @@ object MediaControls {
 						                playState.setState(newPlayState) >> props.onTogglePlayState(newPlayState)
 					                },
 					                {
-						                case Primary => ??? // TODO: SVG icons for button, refer to function above for what to map to
-						                case Secondary => ???
+						                case Primary => <.img(
+							                ^.src := BeatSaberSvgAssets.NoteAssetPath(Blue, D),
+							                ^.transform := "rotate(270deg)"
+						                ) // TODO: SVG icons for button, refer to function above for what to map to
+						                case Secondary => <.img(
+							                ^.src := BeatSaberSvgAssets.NoteAssetPath(Red, D),
+							                ^.transform := "rotate(270deg)"
+						                )
 					                }
 				                )),
 

@@ -48,7 +48,9 @@ object Difficulty {
 				case (2, 0) => MapFrame(None, None, None, None, None, None, None, None, None, None, Some(bloq), None)
 				case (3, 0) => MapFrame(None, None, None, None, None, None, None, None, None, None, None, Some(bloq))
 
-				case _ => MapFrame(None, None, None, None, None, None, None, None, None, None, None, None)
+				case _ => MapFrame(Some(Bomb), Some(Bomb), Some(Bomb), Some(Bomb),
+					               Some(Bomb), Some(Bomb), Some(Bomb), Some(Bomb),
+					               Some(Bomb), Some(Bomb), Some(Bomb), Some(Bomb))
 			}
 		}
 	}
