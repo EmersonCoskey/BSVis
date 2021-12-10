@@ -10,7 +10,7 @@ enablePlugins(ScalaJSPlugin)
 
 enablePlugins(ScalaJSBundlerPlugin)
 
-//enablePlugins(ScalablyTypedConverterPlugin)
+enablePlugins(ScalablyTypedConverterPlugin)
 
 addCompilerPlugin("com.olegpy" %% "better-monadic-for" % "0.3.1")
 
@@ -18,9 +18,11 @@ addCompilerPlugin("com.olegpy" %% "better-monadic-for" % "0.3.1")
 
 scalaJSUseMainModuleInitializer := true
 
-//stFlavour := Flavour.Japgolly
+stFlavour := Flavour.Japgolly
 
 useYarn := true
+
+stIgnore ++= List("react", "react-dom")
 
 val ScalaJsReactVer = "2.0.0"
 
@@ -43,8 +45,6 @@ libraryDependencies ++= Seq(
 
 	// Mandatory
 	"com.github.japgolly.scalajs-react" %%% "core-bundle-cats_effect" % ScalaJsReactVer,
-
-
 )
 
 val sttpVer = "3.3.18"

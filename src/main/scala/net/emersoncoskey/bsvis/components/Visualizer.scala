@@ -49,7 +49,7 @@ object Visualizer {
 			                <.div(
 				                BloqViewContainer.C(BloqViewContainer.Props(currentFrame.value, () => currentTime.value)),
 
-				                MediaControls.C(MediaControls.Props(mapData.last._1,)),
+				                MediaControls.C(MediaControls.Props(mapData.last._1, () => currentTime.value, _ => SyncIO.unit, _ => SyncIO.unit)),
 			                )
 		                )
 }

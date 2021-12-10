@@ -22,10 +22,8 @@ object SeekBar {
 			                //TODO: update position of thingy along seekbar, clamped between 0 and max value
 		                }))
 		                .render((props: Props, isSeeking: UseState[Boolean]) =>
-			                <.div(
-				                <.div("currentTimeDisplay"), //TODO: REPLACE THESE WITH ACTUAL COMPONENTS
-				                <.div("actualSeekbar"),
-				                <.div("timeRemainingDisplay") //move to parent component?
+			                <.div( //TODO: REPLACE THESE WITH ACTUAL COMPONENTS
+				                <.div("actualSeekbar"), //move to parent component?
 			                )
 		                )
 }

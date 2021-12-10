@@ -8,6 +8,8 @@ import net.emersoncoskey.bsvis.components.misc.ToggleButton._
 import net.emersoncoskey.bsvis.data.beatsaber._
 import net.emersoncoskey.bsvis.data.constants.BeatSaberSvgAssets
 import net.emersoncoskey.bsvis.data.time.Seconds
+import net.emersoncoskey.bsvis.hooks.UseAnimationFrame
+import org.scalajs.dom.html
 
 
 object MediaControls {
@@ -24,8 +26,13 @@ object MediaControls {
 
 	val Component: ScalaFnComponent[Props, CtorType.Props] =
 		ScalaFnComponent.withHooks[Props]
+
 		                .useState[PlayState](Paused)
-		                .render((props: Props, playState: Hooks.UseState[PlayState]) =>
+
+		                .useRefToVdom[html.Div]
+		                .customBy((props, _, ref) => UseAnimationFrame.H((t: Seconds) => ref.foreach(_.innerText = props.currentTime().time.floor.toString)))
+
+		                .render((props: Props, playState: Hooks.UseState[PlayState], ref: Ref.ToVdom[html.Div]) =>
 			                <.div(
 				                ToggleButton.C(ToggleButton.Props(
 					                Secondary,
@@ -49,6 +56,7 @@ object MediaControls {
 				                )),
 
 				                SeekBar.C(SeekBar.Props(props.maxTime, props.currentTime, props.onSeek)),
+				                <.div.withRef(ref)()
 			                )
 		                )
 
