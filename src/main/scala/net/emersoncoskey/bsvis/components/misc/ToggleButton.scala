@@ -10,9 +10,7 @@ object ToggleButton {
 	                       switchableComponent: State => VdomNode)
 
 	sealed trait State
-
 	case object Primary extends State
-
 	case object Secondary extends State
 
 	def C: ScalaFnComponent[Props, CtorType.Props] = Component
@@ -28,8 +26,7 @@ object ToggleButton {
 						                case Secondary => Primary
 					                }
 
-					                toggleState.setState(newState) >>
-					                  props.onToggle(newState)
+					                toggleState.setState(newState) >> props.onToggle(newState)
 				                },
 
 				                props.switchableComponent(toggleState.value)

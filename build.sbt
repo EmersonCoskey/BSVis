@@ -10,7 +10,7 @@ enablePlugins(ScalaJSPlugin)
 
 enablePlugins(ScalaJSBundlerPlugin)
 
-enablePlugins(ScalablyTypedConverterPlugin)
+//enablePlugins(ScalablyTypedConverterPlugin)
 
 addCompilerPlugin("com.olegpy" %% "better-monadic-for" % "0.3.1")
 
@@ -18,11 +18,11 @@ addCompilerPlugin("com.olegpy" %% "better-monadic-for" % "0.3.1")
 
 scalaJSUseMainModuleInitializer := true
 
-stFlavour := Flavour.Japgolly
+//stFlavour := Flavour.Japgolly
 
 useYarn := true
 
-stIgnore ++= List("react", "react-dom")
+//stIgnore ++= List("react", "react-dom")
 
 val ScalaJsReactVer = "2.0.0"
 

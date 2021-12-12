@@ -10,6 +10,7 @@ import net.emersoncoskey.bsvis.data.constants.BeatSaberSvgAssets
 import net.emersoncoskey.bsvis.data.time.Seconds
 import net.emersoncoskey.bsvis.hooks.UseAnimationFrame
 import org.scalajs.dom.html
+import net.emersoncoskey.bsvis.data.media._
 
 
 object MediaControls {
@@ -17,10 +18,6 @@ object MediaControls {
 	                       currentTime      : () => Seconds,
 	                       onSeek           : Seconds => SyncIO[Unit],
 	                       onTogglePlayState: PlayState => SyncIO[Unit])
-
-	sealed trait PlayState
-	case object Playing extends PlayState
-	case object Paused extends PlayState
 
 	def C: ScalaFnComponent[Props, CtorType.Props] = Component
 
@@ -35,7 +32,7 @@ object MediaControls {
 		                .render((props: Props, playState: Hooks.UseState[PlayState], ref: Ref.ToVdom[html.Div]) =>
 			                <.div(
 				                ToggleButton.C(ToggleButton.Props(
-					                Secondary,
+					                Primary,
 					                toggleState => {
 						                val newPlayState = toggleState match {
 							                case Primary => Playing
@@ -45,10 +42,14 @@ object MediaControls {
 					                },
 					                {
 						                case Primary => <.img(
+							                ^.width := "10em",
+							                ^.height := "10em",
 							                ^.src := BeatSaberSvgAssets.NoteAssetPath(Blue, D),
 							                ^.transform := "rotate(270deg)"
 						                ) // TODO: SVG icons for button, refer to function above for what to map to
 						                case Secondary => <.img(
+							                ^.width := "10em",
+							                ^.height := "10em",
 							                ^.src := BeatSaberSvgAssets.NoteAssetPath(Red, D),
 							                ^.transform := "rotate(270deg)"
 						                )
