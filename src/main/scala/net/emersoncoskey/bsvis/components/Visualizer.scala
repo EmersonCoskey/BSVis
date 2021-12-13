@@ -9,10 +9,9 @@ import net.emersoncoskey.bsvis.data.beatsaber._
 import net.emersoncoskey.bsvis.hooks._
 import cats.implicits._
 import net.emersoncoskey.bsvis.components.mediacontrols.MediaControls
-import net.emersoncoskey.bsvis.data.media.Playing
 import net.emersoncoskey.bsvis.data.time.Seconds
-import net.emersoncoskey.bsvis.data.media._
 import net.emersoncoskey.bsvis.data.time.Seconds.secondsOrdering
+import net.emersoncoskey.bsvis.data.media._
 import sttp.client3._
 import sttp.client3.impl.cats.FetchCatsBackend
 
@@ -36,7 +35,7 @@ object Visualizer {
 		                           currentFrameTime: UseState[Seconds],
 		                           frameAccumulator: UseState[MapFrame[(Seconds, Bloq)]]) =>
 			                UseFrameDelta.H(delta => (for {
-				                //_ <- SyncIO(println(delta))
+				                _ <- SyncIO(println(s"time seen from Visualizer is ${delta.time}"))
 				                _ <- currentTime.mod(_ + delta)
 
 				                frameSearchRes = mapData.maxBefore(currentTime.value).getOrElse((Seconds(0.0), MapFrame.Empty[Bloq]))
@@ -59,7 +58,7 @@ object Visualizer {
 					                mapData.last._1,
 					                () => currentTime.value,
 					                _ => SyncIO.unit,
-					                playState.setState(_)
+					                playState.setState(_),
 				                )),
 			                )
 		                )
